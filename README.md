@@ -8,7 +8,7 @@ PowerBI網址:
 https://officecycu-my.sharepoint.com/:u:/g/personal/11120436_o365st_cycu_edu_tw/EaRWj6oVhVZEicXQFH_xRwEBGqebEm_kosZCHbuSFC3C9A?e=Yg5jXS
 
 ```mermaid
-flowchart TD
+flowchart RL
     A[開始] --> B(讀取 CSV 並建立 SQLite 資料庫<br>load_data_to_db);
     B --> C(建立資料庫索引<br>create_index);
     C --> D{使用者輸入產品名稱或關鍵字};
