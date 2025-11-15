@@ -18,7 +18,7 @@ flowchart TD
     %% Branch 1: Direct Match Found
     F -- 是 --> G(取得匹配產品);
     G --> H(查詢相同功能類別產品<br>query_products_by_function);
-    H --> I(將結果分組 (大小類)，輸出結果);
+    H --> I('將結果分組 (大小類)，輸出結果');
     I --> J(將結果存入 CSV 檔案<br>IndexSQL_find.csv);
     J --> K[結束];
 
