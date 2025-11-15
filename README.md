@@ -16,19 +16,19 @@ flowchart TD
     E --> F{有找到直接匹配結果?};
 
     %% Branch 1: Direct Match Found
-    F -- 是 --> G(取得匹配產品);
+    F -- Yes --> G(取得匹配產品);
     G --> H(查詢相同功能類別產品<br>query_products_by_function);
-    H --> I(將結果分組大小類，輸出結果');
+    H --> I(將結果分組大小類，輸出結果); %% <-- 修正：移除了結尾的單引號
     I --> J(將結果存入 CSV 檔案<br>IndexSQL_find.csv);
     J --> K[結束];
 
     %% Branch 2: No Direct Match
-    F -- 否 --> L(進行模糊搜尋<br>fuzzywuzzy 模組);
+    F -- No --> L(進行模糊搜尋<br>fuzzywuzzy 模組);
     L --> M{有找到模糊匹配結果?};
 
     %% Branch 2a: Fuzzy Match Found
-    M -- 是 --> H;  %% 流程回到 H
+    M -- Yes --> H;  %% 流程回到 H
 
     %% Branch 2b: No Fuzzy Match
-    M -- 否 --> Q(顯示「找不到產品」訊息);
+    M -- No --> Q(顯示「找不到產品」訊息);
     Q --> K; %% 結束
