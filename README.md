@@ -7,24 +7,28 @@ HistoryData.csv["點數變更記錄"]，該列資料來源為format_clean 值為
 PowerBI網址:
 https://officecycu-my.sharepoint.com/:u:/g/personal/11120436_o365st_cycu_edu_tw/EaRWj6oVhVZEicXQFH_xRwEBGqebEm_kosZCHbuSFC3C9A?e=Yg5jXS
 
-```markdown
 ```mermaid
 flowchart TD
-    A[開始] --> B(讀<br>load_data_to_db);
-    B --> C(建<br>create_index);
-    C --> D{使用者輸入};
-    D --> E(模糊搜尋<br>fuzzy_search_product);
-    E --> F{有直接匹配?};
+    A[開始] --> B(讀取 CSV 並建立 SQLite 資料庫<br>load_data_to_db);
+    B --> C(建立資料庫索引<br>create_index);
+    C --> D{使用者輸入產品名稱或關鍵字};
+    D --> E(進行模糊搜尋<br>fuzzy_search_product);
+    E --> F{有找到直接匹配結果?};
 
-    F -->|是| G(取得匹配產品);
-    G --> H(查詢相同功能產品<br>query_products_by_function);
-    H --> I(分組並輸出);
-    I --> J(存入 CSV<br>IndexSQL_find.csv);
+    %% Branch 1: Direct Match Found
+    F -- Yes --> G(取得匹配產品);
+    G --> H(查詢相同功能類別產品<br>query_products_by_function);
+    H --> I(將結果分組 (大小類)，輸出結果);
+    I --> J(將結果存入 CSV 檔案<br>IndexSQL_find.csv);
     J --> K[結束];
 
-    F -->|否| L(進階模糊搜尋<br>fuzzywuzzy);
-    L --> M{有模糊匹配?};
+    %% Branch 2: No Direct Match
+    F -- No --> L(進行模糊搜尋<br>fuzzywuzzy 模組);
+    L --> M{有找到模糊匹配結果?};
 
-    M -->|是| H;  %% 流程回到 H
-    M -->|否| Q(顯示「找不到產品」);
+    %% Branch 2a: Fuzzy Match Found
+    M -- Yes --> H;  %% 流程回到 H
+
+    %% Branch 2b: No Fuzzy Match
+    M -- No --> Q(顯示「找不到產品」訊息);
     Q --> K; %% 結束
