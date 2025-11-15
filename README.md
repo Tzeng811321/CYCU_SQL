@@ -7,8 +7,8 @@ HistoryData.csv["點數變更記錄"]，該列資料來源為format_clean 值為
 PowerBI網址:
 https://officecycu-my.sharepoint.com/:u:/g/personal/11120436_o365st_cycu_edu_tw/EaRWj6oVhVZEicXQFH_xRwEBGqebEm_kosZCHbuSFC3C9A?e=Yg5jXS
 
-graph TD
-"""
+```mermaid
+flowchart TD
     A[開始] --> B(讀取 CSV 並建立 SQLite 資料庫<br>load_data_to_db);
     B --> C(建立資料庫索引<br>create_index);
     C --> D{使用者輸入產品名稱或關鍵字};
@@ -27,9 +27,8 @@ graph TD
     L --> M{有找到模糊匹配結果?};
 
     %% Branch 2a: Fuzzy Match Found
-    M -- 是 --> H;  %% 重複使用 H, I, J, K 的流程
+    M -- 是 --> H;  %% 流程回到 H
 
     %% Branch 2b: No Fuzzy Match
     M -- 否 --> Q(顯示「找不到產品」訊息);
     Q --> K; %% 結束
-"""
